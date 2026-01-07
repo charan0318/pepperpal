@@ -3,7 +3,13 @@
   "builds": [
     {
       "src": "api/webhook.js",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "src/**",
+          "package.json"
+        ]
+      }
     }
   ],
   "routes": [
