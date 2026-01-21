@@ -25,27 +25,6 @@ export async function fallbackHandler(ctx) {
   const chatId = ctx.chat?.id;
   const chatType = ctx.chat?.type;
   const isPrivate = chatType === 'private';
-  const messageText = ctx.message?.text || '';
-
-  logger.debug('Fallback handler triggered', {
-    userId,
-    chatType,
-    messageText,
-    botUsername: config.botUsername,
-  });
-
-  // Remove bot mention from text if present
-  const question = messageText
-    .replace(new RegExp(`@${config.botUsername}`, 'gi'), '')
-    .trim();
-
-  logger.debug('Question extracted', { question, originalText: messageText });
-
-  // If empty after removing mention, skip
-  if (!question) {
-    logger.debug('Empty question after mention removal, skipping');
-    return;
-  }
 
   // Check if knowledge system is available
   if (!isKnowledgeAvailable()) {
@@ -66,110 +45,13 @@ export async function fallbackHandler(ctx) {
     return;
   }
 
-  // Record question received
-  recordQuestion();
+  // Knowledge is available — guide user to use /ask command
+  const message = isPrivate
+    ? "Hey there! To ask me something, use /ask followed by your question. For example: /ask what is Peppercoin?\n\nOr use /help to see all available commands."
+    : "To ask me something, use /ask followed by your question. For example: /ask what is Peppercoin?";
 
-  // Check for duplicate query (silent suppression)
-  if (isDuplicate(userId, chatId, question)) {
-    recordDuplicate();
-    logger.debug('Duplicate query suppressed', { userId });
-    return;
-  }
-
-  // Check responder status
-  const status = getResponderStatus();
-  if (!status.ready) {
-    logger.warn('Fallback used but responder not ready', { userId, status });
-    recordFallback();
-
-    try {
-      await ctx.reply(
-        'Pepper Pal is temporarily unable to answer questions. Please try again later.',
-        { reply_to_message_id: ctx.message?.message_id }
-      );
-    } catch (err) {
-      logger.warn('Failed to send not ready message', { error: err.message });
-    }
-    return;
-  }
-
-  // Log the question
-  logger.info('Processing mention/DM question', {
-    userId,
-    chatType,
-    questionLength: question.length,
-  });
-
-  // Show typing indicator
   try {
-    await ctx.sendChatAction('typing');
-  } catch (err) {
-    logger.debug('Failed to send typing action', { error: err.message });
-  }
-
-  // Generate AI response
-  let aiResult;
-  try {
-    aiResult = await generateResponse(question);
-  } catch (err) {
-    logger.error('Failed to generate response in fallback', {
-      error: err.message,
-      userId,
-    });
-    recordFallback();
-
-    try {
-      await ctx.reply(getSafeFallback(), {
-        reply_to_message_id: ctx.message?.message_id,
-      });
-    } catch (replyErr) {
-      logger.warn('Failed to send error fallback', {
-        error: replyErr.message,
-      });
-    }
-    return;
-  }
-
-  // Check if AI generation succeeded
-  if (!aiResult.success) {
-    logger.warn('AI generation returned error in fallback', { userId, error: aiResult.error });
-    recordFallback();
-
-    try {
-      await ctx.reply(aiResult.message || getSafeFallback(), {
-        reply_to_message_id: ctx.message?.message_id,
-      });
-    } catch (err) {
-      logger.warn('Failed to send AI error message', { error: err.message });
-    }
-    return;
-  }
-
-  const answer = aiResult.message;
-
-  // Sanitize output
-  const sanitizeResult = sanitize(answer);
-  
-  if (!sanitizeResult.safe) {
-    logger.warn('Sanitization rejected response in fallback', { userId, reason: sanitizeResult.reason });
-    recordSanitizationFailure();
-
-    try {
-      await ctx.reply(getSafeFallback(), {
-        reply_to_message_id: ctx.message?.message_id,
-      });
-    } catch (err) {
-      logger.warn('Failed to send sanitization fallback', {
-        error: err.message,
-      });
-    }
-    return;
-  }
-
-  // Send response
-  try {
-    await ctx.reply(sanitizeResult.output, {
-      parse_mode: 'Markdown',
+    await ctx.reply(message, {
       reply_to_message_id: ctx.message?.message_id,
     });
 
