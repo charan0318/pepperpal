@@ -34,6 +34,7 @@ export async function buyHandler(ctx) {
       'How to Buy PEPPER:\n\n' +
       '🟢 Decentralized:\n' +
       '• FanX DEX: https://app.fanx.xyz\n\n' +
+      '• Diviswap: https://diviswap.io/\n\n' +
       '🟢 Centralized Exchanges:\n' +
       '• MEXC: https://www.mexc.com\n' +
       '• CoinEx: https://www.coinex.com\n' +
@@ -168,6 +169,36 @@ export async function tokenomicsHandler(ctx) {
   }
 }
 
+export async function cexHandler(ctx) {
+  try {
+    await ctx.reply(
+      '🏛 Centralized Exchange Listings:\n\n' +
+      '• MEXC: https://www.mexc.com/exchange/PEPPER_USDT\n' +
+      '• CoinEx: https://www.coinex.com/en/exchange/PEPPER-USDT\n' +
+      '• Paribu: https://www.paribu.com/markets/pepper-try',
+      { disable_web_page_preview: true }
+    );
+    logger.info('CEX command handled', { userId: ctx.from?.id });
+  } catch (err) {
+    logger.error('Failed to send CEX info', { error: err.message });
+  }
+}
+
+export async function dexHandler(ctx) {
+  try {
+    await ctx.reply(
+      '🔄 Decentralized Exchange Listings:\n\n' +
+      '• FanX Protocol: https://fanx.chiliz.com/ (PEPPER/WCHZ)\n' +
+      '• Diviswap: https://diviswap.io/ (PEPPER/WCHZ)\n\n' +
+      'Contract: `0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67`',
+      { parse_mode: 'Markdown', disable_web_page_preview: true }
+    );
+    logger.info('DEX command handled', { userId: ctx.from?.id });
+  } catch (err) {
+    logger.error('Failed to send DEX info', { error: err.message });
+  }
+}
+
 export default {
   websiteHandler,
   contractHandler,
@@ -181,4 +212,6 @@ export default {
   chainHandler,
   linksHandler,
   tokenomicsHandler,
+  cexHandler,
+  dexHandler,
 };

@@ -29,6 +29,8 @@ import {
   chainHandler,
   linksHandler,
   tokenomicsHandler,
+  cexHandler,
+  dexHandler,
 } from './handlers/quick.js';
 
 // Knowledge
@@ -103,6 +105,8 @@ export function createBot() {
   bot.command('chain', chainHandler);
   bot.command('links', linksHandler);
   bot.command('tokenomics', tokenomicsHandler);
+  bot.command('cex', cexHandler);
+  bot.command('dex', dexHandler);
 
   // ============================================
   // ADMIN COMMANDS

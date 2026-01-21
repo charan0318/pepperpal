@@ -24,3 +24,9 @@ Thumbs.db
 # Build artifacts
 dist/
 build/
+
+# Deployment documentation (kept locally only)
+DEPLOYMENT.md
+PRE_LAUNCH_CHECKLIST.md
+ROLLBACK.md
+.vercel
