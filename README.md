@@ -64,20 +64,6 @@ Pepper Pal is a Telegram bot that serves as an official information assistant fo
    npm run dev
    ```
 
-### Production Deployment
-
-See **[DEPLOYMENT.md](DEPLOYMENT.md)** for complete production deployment guide to Vercel.
-
-**Quick deployment checklist:**
-1. Push code to GitHub
-2. Connect repository to Vercel
-3. Configure environment variables in Vercel
-4. Deploy → Get webhook URL
-5. Set Telegram webhook
-6. Follow [PRE_LAUNCH_CHECKLIST.md](PRE_LAUNCH_CHECKLIST.md)
-
-**Emergency procedures:** See [ROLLBACK.md](ROLLBACK.md)
-
 ## Commands
 
 ### User Commands
@@ -90,6 +76,8 @@ Instant access to official resources - no AI processing required.
 | `/website` | Official Peppercoin website |
 | `/contract` | PEPPER token contract address |
 | `/buy` | How to buy PEPPER (exchanges and DEX) |
+| `/cex` | Centralized exchanges for PEPPER |
+| `/dex` | Decentralized exchanges for PEPPER |
 | `/stake` | Staking information and Pepper Inc |
 | `/governance` | Pepper Inc governance details |
 | `/twitter` or `/x` | Official Twitter/X account |

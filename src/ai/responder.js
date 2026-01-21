@@ -43,10 +43,10 @@ export async function generateResponse(userQuestion) {
 
   const trimmedQuestion = userQuestion.trim();
 
-  if (trimmedQuestion.length < 3) {
+  if (trimmedQuestion.length < 2) {
     return {
       success: false,
-      message: 'Please provide a more detailed question.',
+      message: 'Please provide a question.',
       error: 'Question too short',
     };
   }

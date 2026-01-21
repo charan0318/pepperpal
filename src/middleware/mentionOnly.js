@@ -26,25 +26,49 @@ export function mentionOnly() {
 
     // Group/supergroup chats: check for mention or command
     if (chat.type === 'group' || chat.type === 'supergroup') {
+      logger.info('Processing group message', {
+        text: message.text,
+        botUsername: config.botUsername,
+        chatId: chat.id,
+        chatTitle: chat.title,
+        hasEntities: !!message.entities,
+        entities: message.entities?.map(e => ({ 
+          type: e.type, 
+          offset: e.offset, 
+          length: e.length,
+          extractedText: message.text?.substring(e.offset, e.offset + e.length)
+        })) || [],
+      });
+
       // Check if this is a command (commands are always allowed)
       if (message.text && message.text.startsWith('/')) {
         return next();
       }
 
       // Check for bot mention in text
-      if (isBotMentioned(message, config.botUsername)) {
+      const textMention = isBotMentioned(message, config.botUsername);
+      logger.info('[MENTION CHECK] Text mention result', { textMention, pattern: `@${config.botUsername}` });
+      if (textMention) {
+        logger.info('✅ Bot mentioned in text - ALLOWING');
         return next();
       }
 
-      // Check for bot mention in entities (e.g., @PepperPal)
-      if (hasMentionEntity(message, config.botUsername)) {
+      // Check for bot mention in entities (e.g., @PepperPal_Bot)
+      const entityMention = hasMentionEntity(message, config.botUsername);
+      logger.info('[MENTION CHECK] Entity mention result', { entityMention });
+      if (entityMention) {
+        logger.info('✅ Bot mentioned in entities - ALLOWING');
         return next();
       }
 
       // No mention, no command — ignore silently
-      logger.debug('Ignoring group message without mention', {
+      logger.info('Ignoring group message without mention', {
         chatId: chat.id,
         chatTitle: chat.title,
+        messageText: message.text,
+        botUsername: config.botUsername,
+        hasEntities: !!message.entities,
+        entityCount: message.entities?.length || 0,
       });
       return; // Stop processing
     }

@@ -7,10 +7,10 @@ import logger from '../utils/logger.js';
  */
 
 // Absolute maximum response length (characters)
-const HARD_MAX_LENGTH = 2000;
+const HARD_MAX_LENGTH = 500;
 
 // Soft limit for normal responses (prefer shorter)
-const SOFT_MAX_LENGTH = 1500;
+const SOFT_MAX_LENGTH = 400;
 
 // Minimum viable response length
 const MIN_LENGTH = 5;

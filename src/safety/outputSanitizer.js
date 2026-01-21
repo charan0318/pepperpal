@@ -21,8 +21,11 @@ const ALLOWED_DOMAINS = [
   'x.com/PepperChain',
   'twitter.com/PepperChain',
   'coingecko.com/en/coins/pepper',
-  'app.fanx.xyz',
-  'fanx.xyz',
+  'fanx.chiliz.com',
+  'diviswap.io',
+  'mexc.com',
+  'coinex.com',
+  'paribu.com',
   'rpc.chiliz.com',
 ];
 
@@ -45,8 +48,8 @@ const FORBIDDEN_OUTPUT_PATTERNS = [
   /\b(bullish|bearish|moon|dump|pump)\b/i,
   /\b(price\s+target|price\s+prediction)/i,
 
-  // Financial advice (strict)
-  /\b(investment\s+advice|financial\s+advice)/i,
+  // Financial advice (strict) - but allow disclaimers
+  /\b(this\s+is|here('s|\s+is)|I('m|\s+am)\s+(giving|providing|offering))\s+(investment|financial)\s+advice/i,
   /\b(guaranteed|risk-?free|profit)\s+(return|income|gain)/i,
 
   // Internal system references (should never leak)
@@ -134,6 +137,10 @@ export function sanitize(response) {
   }
 
   let output = response.trim();
+  console.log('=== SANITIZE INPUT ===');
+  console.log('Length:', output.length);
+  console.log('Preview:', output.substring(0, 200));
+  console.log('=====================');
 
   // Check forbidden patterns first (reject immediately)
   for (const pattern of FORBIDDEN_OUTPUT_PATTERNS) {
@@ -152,7 +159,11 @@ export function sanitize(response) {
   }
 
   // Smart URL filtering - keeps official links, removes unknown ones
+  const beforeUrlFilter = output;
   output = filterUrls(output);
+  if (beforeUrlFilter !== output) {
+    console.log('After URL filter:', output.length, 'chars');
+  }
 
   // Strip other problematic patterns (clean up) - includes markdown stripping
   for (const pattern of STRIP_PATTERNS) {
@@ -163,9 +174,7 @@ export function sanitize(response) {
       return captured !== undefined ? captured : ' ';
     });
     if (before !== output) {
-      logger.debug('Stripped pattern from output', {
-        pattern: pattern.source,
-      });
+      console.log('Stripped pattern:', pattern.source.substring(0, 50), '- now', output.length, 'chars');
     }
   }
 
