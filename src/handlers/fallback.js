@@ -45,23 +45,79 @@ export async function fallbackHandler(ctx) {
     return;
   }
 
-  // Knowledge is available — guide user to use /ask command
-  const message = isPrivate
-    ? "Hey there! To ask me something, use /ask followed by your question. For example: /ask what is Peppercoin?\n\nOr use /help to see all available commands."
-    : "To ask me something, use /ask followed by your question. For example: /ask what is Peppercoin?";
+  // Extract the question from the message (remove the @mention if present)
+  const rawText = ctx.message?.text || '';
+  const botMention = `@${config.botUsername}`;
+  const question = rawText.replace(new RegExp(botMention, 'gi'), '').trim();
 
+  // If no actual question after removing mention, send a friendly prompt
+  if (question.length < 2) {
+    try {
+      await ctx.reply("Hey! What would you like to know about Peppercoin? 🌶️", {
+        reply_to_message_id: ctx.message?.message_id,
+      });
+      return;
+    } catch (err) {
+      logger.warn('Failed to send prompt message', { error: err.message });
+      return;
+    }
+  }
+
+  // Check for duplicate questions
+  if (isDuplicate(userId, question)) {
+    logger.info('Duplicate question detected in fallback', { userId, question });
+    recordDuplicate();
+    return;
+  }
+
+  recordQuestion();
+
+  // Generate AI response
   try {
-    await ctx.reply(message, {
+    logger.info('Generating AI response for mention', { userId, question: question.substring(0, 50) });
+    
+    const aiResult = await generateResponse(question, userId);
+    
+    if (!aiResult.success) {
+      logger.warn('AI response failed', { error: aiResult.error });
+      await ctx.reply(getSafeFallback(), {
+        reply_to_message_id: ctx.message?.message_id,
+      });
+      recordFallback();
+      return;
+    }
+
+    const sanitized = sanitize(aiResult.message);
+
+    if (!sanitized.safe) {
+      logger.warn('Response failed sanitization', { reason: sanitized.reason });
+      await ctx.reply(getSafeFallback(), {
+        reply_to_message_id: ctx.message?.message_id,
+      });
+      recordSanitizationFailure();
+      return;
+    }
+
+    await ctx.reply(sanitized.text, {
       reply_to_message_id: ctx.message?.message_id,
     });
 
     recordAnswer();
-    logger.info('Fallback response sent successfully', { userId, chatType });
+    logger.info('AI response sent successfully', { userId, chatType });
   } catch (err) {
-    logger.error('Failed to send response in fallback', {
+    logger.error('Failed to send AI response in fallback', {
       error: err.message,
       userId,
     });
+    
+    try {
+      await ctx.reply(getSafeFallback(), {
+        reply_to_message_id: ctx.message?.message_id,
+      });
+      recordFallback();
+    } catch (replyErr) {
+      logger.error('Failed to send fallback message', { error: replyErr.message });
+    }
   }
 }
 
