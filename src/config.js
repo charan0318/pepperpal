@@ -10,7 +10,7 @@ const config = {
   botToken: process.env.BOT_TOKEN,
 
   // Bot username without @ (required for mention detection)
-  botUsername: process.env.BOT_USERNAME || 'PepperPal',
+  botUsername: (process.env.BOT_USERNAME || 'PepperPal').trim(),
 
   // Admin user IDs (comma-separated Telegram user IDs)
   // These users can control bot modes regardless of group admin status
