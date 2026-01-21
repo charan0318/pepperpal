@@ -98,7 +98,7 @@ export async function fallbackHandler(ctx) {
       return;
     }
 
-    await ctx.reply(sanitized.text, {
+    await ctx.reply(sanitized.output, {
       reply_to_message_id: ctx.message?.message_id,
     });
 
