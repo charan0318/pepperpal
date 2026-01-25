@@ -60,7 +60,12 @@ function initializeBot() {
  * Vercel serverless function handler
  */
 export default async function handler(req, res) {
-  // Only accept POST requests
+  // Health check for GET requests
+  if (req.method === 'GET') {
+    return res.status(200).json({ status: 'ok', bot: 'PepperPal' });
+  }
+  
+  // Only accept POST requests for webhooks
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
