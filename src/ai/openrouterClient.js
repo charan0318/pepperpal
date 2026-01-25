@@ -26,10 +26,19 @@ const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
 /**
  * Make a chat completion request to OpenRouter
  * @param {ChatMessage[]} messages - Array of messages
+ * @param {Object} [options] - Optional overrides
+ * @param {string} [options.model] - Override model
+ * @param {number} [options.maxTokens] - Override max tokens
+ * @param {number} [options.temperature] - Override temperature
  * @returns {Promise<OpenRouterResponse>}
  */
-export async function chatCompletion(messages) {
-  const { apiKey, model, temperature, maxTokens, timeoutMs } = config.openRouter;
+export async function chatCompletion(messages, options = {}) {
+  const { apiKey, model: defaultModel, temperature: defaultTemp, maxTokens: defaultMaxTokens, timeoutMs } = config.openRouter;
+
+  // Allow option overrides
+  const model = options.model || defaultModel;
+  const temperature = options.temperature ?? defaultTemp;
+  const maxTokens = options.maxTokens || defaultMaxTokens;
 
   if (!apiKey) {
     logger.error('OpenRouter API key not configured');
@@ -48,6 +57,11 @@ export async function chatCompletion(messages) {
     max_tokens: maxTokens,
     // Prevent the model from going off-topic
     top_p: 0.9,
+    // Disable reasoning mode for reasoning models - we want direct content output
+    // This prevents models from using all tokens for "thinking" and leaving content empty
+    reasoning: {
+      effort: 'none',
+    },
   };
 
   logger.debug('OpenRouter request', {
@@ -94,7 +108,23 @@ export async function chatCompletion(messages) {
 
     // Extract the response content
     const choice = data.choices?.[0];
-    const content = choice?.message?.content;
+    let content = choice?.message?.content;
+
+    // Some reasoning models put content in reasoning field when content is empty
+    // Check if we got cut off during reasoning (finish_reason: "length")
+    if (!content && choice?.finish_reason === 'length') {
+      // Model ran out of tokens during reasoning - this is a problem
+      logger.warn('Model ran out of tokens during reasoning', {
+        model: model,
+        reasoning: choice?.message?.reasoning?.substring(0, 100),
+      });
+      return {
+        success: false,
+        content: null,
+        error: 'Model ran out of tokens - try a simpler question',
+        usage: data.usage || null,
+      };
+    }
 
     if (!content) {
       logger.warn('OpenRouter returned empty response', { data });

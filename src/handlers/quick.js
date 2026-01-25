@@ -1,9 +1,19 @@
 import logger from '../utils/logger.js';
+import config from '../config.js';
 
 /**
  * Quick Commands - Static responses for instant information
  * These bypass AI processing for fast, direct answers
  */
+
+export async function debugHandler(ctx) {
+  try {
+    await ctx.reply(`Bot Username: ${config.botUsername}\nChat Type: ${ctx.chat?.type}\nMessage: ${ctx.message?.text}`);
+    logger.info('Debug command handled', { userId: ctx.from?.id });
+  } catch (err) {
+    logger.error('Failed to send debug', { error: err.message });
+  }
+}
 
 export async function websiteHandler(ctx) {
   try {
@@ -200,6 +210,7 @@ export async function dexHandler(ctx) {
 }
 
 export default {
+  debugHandler,
   websiteHandler,
   contractHandler,
   buyHandler,

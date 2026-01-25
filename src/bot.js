@@ -14,9 +14,9 @@ import { modeFilter, getMode, setMode, getValidModes } from './admin/modes.js';
 // Handlers
 import { startHandler } from './handlers/start.js';
 import { helpHandler } from './handlers/help.js';
-import { fallbackHandler } from './handlers/fallback.js';
-import { askHandler } from './handlers/ask.js';
+import { pipelineHandler, pipelineAskHandler } from './handlers/pipelineHandler.js';
 import {
+  debugHandler,
   websiteHandler,
   contractHandler,
   buyHandler,
@@ -85,13 +85,14 @@ export function createBot() {
   // /help — Usage instructions
   bot.command('help', helpHandler);
 
-  // /ask — AI-powered question answering (Phase 3)
-  bot.command('ask', askHandler);
+  // /ask — AI-powered question answering
+  bot.command('ask', pipelineAskHandler);
 
   // ============================================
   // QUICK COMMANDS (Static responses)
   // ============================================
 
+  bot.command('debug', debugHandler);
   bot.command('website', websiteHandler);
   bot.command('contract', contractHandler);
   bot.command('buy', buyHandler);
@@ -196,11 +197,11 @@ export function createBot() {
   });
 
   // ============================================
-  // FALLBACK HANDLER (must be last)
+  // MESSAGE HANDLER (must be last)
   // ============================================
 
   // Handle text messages that aren't commands
-  bot.on('text', fallbackHandler);
+  bot.on('text', pipelineHandler);
 
   // ============================================
   // ERROR HANDLING

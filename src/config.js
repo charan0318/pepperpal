@@ -30,8 +30,8 @@ const config = {
   openRouter: {
     // API key (required for AI features)
     apiKey: process.env.OPENROUTER_API_KEY,
-    // Model to use (default: best free model - Xiaomi MiMo V2 Flash)
-    model: process.env.OPENROUTER_MODEL || 'xiaomi/mimo-v2-flash:free',
+    // Model to use (default: GLM 4.5 Air - stable, fast, standard output)
+    model: process.env.OPENROUTER_MODEL || 'liquid/lfm-2.5-1.2b-instruct:free',
     // Temperature (low for deterministic responses)
     temperature: parseFloat(process.env.OPENROUTER_TEMPERATURE || '0.1'),
     // Max tokens for response
