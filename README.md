@@ -155,33 +155,52 @@ pepperpal/
 │   ├── handlers/
 │   │   ├── start.js        # /start command
 │   │   ├── help.js         # /help command
-│   │   ├── ask.js          # /ask command (AI-powered)
-│   │   ├── quick.js        # Quick commands (static responses)
-│   │   └── fallback.js     # Default message handler
+│   │   ├── pipelineHandler.js  # Main message handler (/ask + mentions)
+│   │   └── quick.js        # Quick commands (static responses)
+│   ├── pipeline/
+│   │   ├── index.js        # Pipeline orchestrator
+│   │   ├── classifier.js   # Intent classification
+│   │   ├── planner.js      # Response planning
+│   │   ├── generator.js    # AI response generation
+│   │   └── validator.js    # Response validation
+│   ├── templates/
+│   │   ├── factual.js      # Factual response templates
+│   │   ├── greetings.js    # Greeting templates
+│   │   ├── closings.js     # Closing templates
+│   │   └── refusals.js     # Forbidden intent refusals
+│   ├── delivery/
+│   │   ├── formatter.js    # URL stripping & verified link injection
+│   │   ├── sender.js       # Message sending utilities
+│   │   ├── splitter.js     # Long message splitting
+│   │   └── typing.js       # Typing indicator
 │   ├── admin/
 │   │   ├── adminCheck.js   # Admin verification
 │   │   └── modes.js        # Bot mode management
 │   ├── ai/
 │   │   ├── openrouterClient.js  # OpenRouter API client
-│   │   ├── systemPrompt.js      # AI behavior rules (v2.2.0)
-│   │   ├── responder.js         # AI response pipeline
-│   │   └── validator.js         # Response validation
+│   │   └── systemPrompt.js      # AI prompt version info
 │   ├── knowledge/
 │   │   ├── peppercoin.md   # Comprehensive Peppercoin knowledge base
 │   │   ├── version.json    # Knowledge version metadata
 │   │   ├── loader.js       # Knowledge loading & caching
+│   │   ├── verifiedLinks.js # Official link registry & URL safety
 │   │   ├── validator.js    # File validation logic
 │   │   └── refresher.js    # Admin refresh handlers
 │   ├── safety/
 │   │   ├── duplicateGuard.js    # Duplicate request suppression
-│   │   ├── responseLimiter.js   # Response length guards
-│   │   └── outputSanitizer.js   # Final output safety filter + markdown stripping
+│   │   ├── intentDetector.js    # Pre-AI forbidden content detection
+│   │   └── compressor.js        # Response compression
+│   ├── cache/
+│   │   └── responseCache.js     # Query response caching
 │   ├── monitoring/
 │   │   ├── stats.js        # Aggregate metrics tracking
 │   │   ├── health.js       # /health command handler
 │   │   └── statsHandler.js # /stats command handler
 │   └── utils/
 │       └── logger.js       # Structured logging
+├── tests/                  # Vitest test suites (101 tests)
+├── api/
+│   └── webhook.js          # Vercel serverless webhook
 ├── index.js                # Entry point
 ├── package.json
 ├── .env.example
@@ -205,33 +224,9 @@ Pepper Pal uses a comprehensive, file-based knowledge system as the single sourc
 
 ## Safety System
 
-Pepper Pal includes multiple layers of abuse resistance and quality controls.
+Pepper Pal includes multiple layers of abuse resistance and quality controls through its pipeline architecture.
 
-### Duplicate Suppression
-
-- Identical questions from the same user within 30 seconds are silently ignored
-- Uses simple string hashing (no external dependencies)
-- Auto-cleanup: max 1000 entries, old entries pruned automatically
-- Prevents spam and accidental double-sends
-
-### Response Limiting
-
-- **Hard max**: 3000 characters (increased from 2000 for comprehensive answers)
-- **Soft max**: 200 words (AI instructed to target this)
-- **Newline limit**: Max 12 newlines (warning at 12+, max 2 consecutive)
-- Truncation prefers sentence boundaries when possible
-
-### Output Sanitization
-
-Final safety filter applied to all AI responses before delivery:
-- Strips markdown formatting (bold, italic, code, strikethrough)
-- Smart URL filtering (keeps official domains, removes unknown links)
-- Blocks trading/speculation language that slipped through
-- Removes email addresses
-- Catches edge cases the AI validator might miss
-- Normalizes whitespace and excessive newlines
-
-### Defense in Depth
+### Pipeline Stages
 
 ```
 User Question
@@ -243,16 +238,19 @@ Rate Limiting (per-user cooldown)
 Duplicate Detection (30s window)
     │
     ▼
-AI Response Generation
+Classifier (intent detection)
     │
     ▼
-AI Response Validation (topic guardrails)
+Planner (strategy selection)
     │
     ▼
-Response Length Limiting (hard/soft caps)
+Generator (template or AI response)
     │
     ▼
-Output Sanitization (final filter)
+Validator (quality + completeness checks)
+    │
+    ▼
+Formatter (URL safety + verified links)
     │
     ▼
 Delivered to User
@@ -289,18 +287,26 @@ Admin-only command showing aggregate metrics:
 
 ## Recent Updates
 
-### v2.2.0 (January 2026)
-- ✅ Added 12 quick commands for instant access to official resources
-- ✅ Expanded knowledge base from ~70 lines to 11,366+ characters
-- ✅ Updated system prompt to v2.2.0 with plain text formatting
-- ✅ Added markdown stripping to prevent literal formatting display
-- ✅ Reduced AI response verbosity (200 word target)
-- ✅ Tightened newline limits (max 12, max 2 consecutive)
-- ✅ Smart URL filtering (allows official domains only)
-- ✅ Commands now appear in Telegram autocomplete menu
-- ✅ Improved validator and sanitizer for better response quality
+### v2.0.0 (January 2025)
+- ✅ **Complete architecture overhaul** — unified pipeline-based message handling
+- ✅ **Pipeline stages**: classify → plan → generate → validate → format
+- ✅ **Template system** for factual responses (no AI needed for common questions)
+- ✅ **Verified links registry** — only official URLs are included in responses
+- ✅ **Response validator** with incomplete response detection
+- ✅ **Formatter** strips hallucinated URLs, preserves template URLs
+- ✅ **Removed legacy handlers** — cleaner, more maintainable codebase
+- ✅ **101 test coverage** across all modules
+- ✅ **Vercel serverless ready** with webhook handler
 
-### Quick Commands Added
+### v1.x Legacy Features (Now Unified)
+- Quick commands for instant access to official resources
+- Comprehensive knowledge base (11,366+ characters)
+- Plain text formatting (no markdown)
+- Smart URL filtering (official domains only)
+- Rate limiting and duplicate suppression
+- Admin commands (/health, /stats)
+
+### Quick Commands
 `/website`, `/contract`, `/buy`, `/stake`, `/governance`, `/twitter`, `/x`, `/telegram`, `/coingecko`, `/explorer`, `/chain`, `/links`, `/tokenomics`
 
 ## License
