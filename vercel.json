@@ -10,12 +10,32 @@
           "package.json"
         ]
       }
+    },
+    {
+      "src": "api/cron/aggregate.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "src/**",
+          "package.json"
+        ]
+      }
     }
   ],
   "routes": [
     {
       "src": "/api/webhook",
       "dest": "/api/webhook.js"
+    },
+    {
+      "src": "/api/cron/aggregate",
+      "dest": "/api/cron/aggregate.js"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/aggregate",
+      "schedule": "0 * * * *"
     }
   ],
   "env": {
