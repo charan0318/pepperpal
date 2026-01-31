@@ -15,6 +15,7 @@ Commands:
 /start - Welcome message and overview
 /help - This help message
 /ask [question] - Ask about Peppercoin
+/price - Live PEPPER token price
 
 Examples:
 /ask What is Peppercoin?

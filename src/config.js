@@ -26,6 +26,13 @@ const config = {
     windowSeconds: parseInt(process.env.RATE_LIMIT_WINDOW || '60', 10),
   },
 
+  // CoinGecko API configuration (optional - works without key)
+  coingecko: {
+    // Demo API key (free tier: 10K calls/month)
+    // Get yours at: https://www.coingecko.com/en/api/pricing
+    apiKey: process.env.COINGECKO_API_KEY || null,
+  },
+
   // OpenRouter AI configuration
   openRouter: {
     // API key (required for AI features)

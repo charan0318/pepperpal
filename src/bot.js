@@ -32,6 +32,8 @@ import {
   cexHandler,
   dexHandler,
 } from './handlers/quick.js';
+import { priceHandler } from './handlers/price.js';
+import { analyticsHandler } from './handlers/analytics.js';
 
 // Knowledge
 import {
@@ -43,6 +45,9 @@ import {
 import { healthHandler } from './monitoring/health.js';
 import { statsHandler } from './monitoring/statsHandler.js';
 import { recordCommand } from './monitoring/stats.js';
+
+// Analytics
+import { trackCommand, initAnalytics, trackBotStart } from './analytics/index.js';
 
 /**
  * Create and configure the Telegraf bot instance
@@ -70,7 +75,11 @@ export function createBot() {
   // 5. Record commands for stats
   bot.use((ctx, next) => {
     if (ctx.message?.text?.startsWith('/')) {
+      const commandMatch = ctx.message.text.match(/^\/(\w+)/);
+      const commandName = commandMatch ? commandMatch[1] : 'unknown';
+      
       recordCommand();
+      trackCommand({ chatId: ctx.chat?.id, command: commandName });
     }
     return next();
   });
@@ -93,6 +102,7 @@ export function createBot() {
   // ============================================
 
   bot.command('debug', debugHandler);
+  bot.command('price', priceHandler);
   bot.command('website', websiteHandler);
   bot.command('contract', contractHandler);
   bot.command('buy', buyHandler);
@@ -118,6 +128,9 @@ export function createBot() {
 
   // /stats — Admin-only stats (Phase 4)
   bot.command('stats', statsHandler);
+
+  // /analytics — Admin-only analytics dashboard
+  bot.command('analytics', analyticsHandler);
 
   // /mode — Admin-only mode control
   bot.command('mode', async (ctx) => {
@@ -180,6 +193,7 @@ export function createBot() {
     { command: 'start', description: 'Welcome message' },
     { command: 'help', description: 'Show help and commands' },
     { command: 'ask', description: 'Ask a question about Peppercoin' },
+    { command: 'price', description: 'Live PEPPER price' },
     { command: 'website', description: 'Official website' },
     { command: 'contract', description: 'PEPPER contract address' },
     { command: 'buy', description: 'How to buy PEPPER' },
