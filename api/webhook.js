@@ -3,6 +3,7 @@ import { validateConfig } from '../src/config.js';
 import { createBot } from '../src/bot.js';
 import { loadKnowledge } from '../src/knowledge/loader.js';
 import logger from '../src/utils/logger.js';
+import { initAnalytics, trackBotStart } from '../src/analytics/index.js';
 
 /**
  * Pepper Pal — Vercel Webhook Handler
@@ -44,6 +45,12 @@ function initializeBot() {
     bot = createBot();
     isInitialized = true;
 
+    // Initialize analytics (non-blocking, optional)
+    initAnalytics();
+    
+    // Track cold start (non-blocking)
+    trackBotStart({ deploymentType: 'vercel-webhook' });
+
     logger.info('Pepper Pal webhook handler initialized', {
       environment: 'production',
       mode: 'webhook',
@@ -68,6 +75,23 @@ export default async function handler(req, res) {
   // Only accept POST requests for webhooks
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  // ============================================
+  // SECURITY: Verify webhook secret token
+  // ============================================
+  const webhookSecret = process.env.WEBHOOK_SECRET;
+  if (webhookSecret) {
+    // Telegram sends the secret in X-Telegram-Bot-Api-Secret-Token header
+    const providedSecret = req.headers['x-telegram-bot-api-secret-token'];
+    
+    if (providedSecret !== webhookSecret) {
+      logger.warn('Webhook request with invalid secret', {
+        hasHeader: !!providedSecret,
+        ip: req.headers['x-forwarded-for'] || req.socket?.remoteAddress,
+      });
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
   }
 
   try {

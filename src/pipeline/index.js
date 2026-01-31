@@ -17,6 +17,7 @@ import { generate } from './generator.js';
 import { validate } from './validator.js';
 import { checkForbidden, getRefusal } from '../safety/intentDetector.js';
 import { format } from '../delivery/formatter.js';
+import { trackQuestion, trackForbidden, trackError } from '../analytics/index.js';
 import logger from '../utils/logger.js';
 
 /**
@@ -43,6 +44,12 @@ export async function process(ctx) {
       logger.info('Forbidden intent blocked', {
         pipelineId,
         intent: forbiddenCheck.intent,
+      });
+      
+      // Track forbidden intent (non-blocking)
+      trackForbidden({
+        intent: forbiddenCheck.intent,
+        chatId: ctx.chat?.id,
       });
       
       const refusalText = getRefusal(forbiddenCheck.intent);
@@ -117,6 +124,18 @@ export async function process(ctx) {
       fromTemplate: generated.fromTemplate,
     });
     
+    // Track successful question (non-blocking)
+    trackQuestion({
+      intent: classification.intent,
+      responseClass: classification.responseClass,
+      strategy: responsePlan.strategy,
+      responseTimeMs: totalTime,
+      success: true,
+      fromCache: generated.fromCache,
+      fromTemplate: generated.fromTemplate,
+      chatId: ctx.chat?.id,
+    });
+    
     return createDeliveryPlan(formatted, totalTime);
     
   } catch (error) {
@@ -124,6 +143,14 @@ export async function process(ctx) {
       pipelineId,
       error: error.message,
       stack: error.stack,
+    });
+    
+    // Track error (non-blocking)
+    trackError({
+      errorType: 'pipeline_error',
+      message: error.message,
+      stage: 'pipeline',
+      chatId: ctx.chat?.id,
     });
     
     // Return safe fallback

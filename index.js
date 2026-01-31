@@ -2,6 +2,7 @@ import { validateConfig } from './src/config.js';
 import { createBot } from './src/bot.js';
 import logger from './src/utils/logger.js';
 import { loadKnowledge, isKnowledgeAvailable } from './src/knowledge/loader.js';
+import { initAnalytics, trackBotStart } from './src/analytics/index.js';
 
 /**
  * Pepper Pal — Entry Point
@@ -36,6 +37,9 @@ async function main() {
     });
   }
 
+  // Initialize analytics (non-blocking, optional)
+  initAnalytics();
+
   // Create bot instance
   const bot = createBot();
 
@@ -56,6 +60,9 @@ async function main() {
       mode: 'polling',
       environment: process.env.NODE_ENV || 'development',
     });
+
+    // Track bot start in analytics (non-blocking)
+    trackBotStart({ deploymentType: 'polling' });
   } catch (err) {
     logger.error('Failed to start bot', { error: err.message });
     process.exit(1);

@@ -1,6 +1,7 @@
 import config from '../config.js';
 import logger from '../utils/logger.js';
 import { recordRateLimitHit } from '../monitoring/stats.js';
+import { trackRateLimit } from '../analytics/index.js';
 
 /**
  * In-memory rate limit store
@@ -68,6 +69,9 @@ export function rateLimit() {
     if (userData.count > maxMessages) {
       // Record rate limit hit for stats
       recordRateLimitHit();
+
+      // Track rate limit for analytics (non-blocking)
+      trackRateLimit({ chatId: ctx.chat?.id });
 
       // Rate limited — respond politely once, then suppress
       const secondsRemaining = Math.ceil((userData.resetTime - now) / 1000);

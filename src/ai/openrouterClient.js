@@ -1,5 +1,6 @@
 import config from '../config.js';
 import logger from '../utils/logger.js';
+import { trackAICall } from '../analytics/index.js';
 
 /**
  * OpenRouter API Client
@@ -73,6 +74,7 @@ export async function chatCompletion(messages, options = {}) {
   // Create abort controller for timeout
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+  const requestStartTime = Date.now();
 
   try {
     const response = await fetch(OPENROUTER_API_URL, {
@@ -142,6 +144,16 @@ export async function chatCompletion(messages, options = {}) {
       finishReason: choice.finish_reason,
     });
 
+    // Track successful AI call (non-blocking)
+    trackAICall({
+      latencyMs: Date.now() - requestStartTime,
+      tokensUsed: data.usage?.total_tokens || 0,
+      promptTokens: data.usage?.prompt_tokens || 0,
+      completionTokens: data.usage?.completion_tokens || 0,
+      success: true,
+      model: model,
+    });
+
     return {
       success: true,
       content: content.trim(),
@@ -150,6 +162,15 @@ export async function chatCompletion(messages, options = {}) {
     };
   } catch (err) {
     clearTimeout(timeoutId);
+    
+    // Track failed AI call (non-blocking)
+    trackAICall({
+      latencyMs: Date.now() - requestStartTime,
+      tokensUsed: 0,
+      success: false,
+      model: model,
+      error: err.name === 'AbortError' ? 'timeout' : err.message,
+    });
 
     if (err.name === 'AbortError') {
       logger.error('OpenRouter request timed out', { timeoutMs });
