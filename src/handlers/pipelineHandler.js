@@ -27,6 +27,16 @@ export async function pipelineHandler(ctx) {
   const chatId = ctx.chat?.id;
   const chatType = ctx.chat?.type;
   const isPrivate = chatType === 'private';
+  const rawText = ctx.message?.text || '';
+  
+  // Ignore unknown commands (e.g., /report, /unknown)
+  // Only process text that doesn't start with / or is a valid mention
+  if (rawText.startsWith('/')) {
+    // This is a command - if it reaches here, it's unregistered
+    // Let Telegram handle it (show "command not found" by default)
+    logger.debug('Ignoring unregistered command', { command: rawText, userId });
+    return;
+  }
   
   // Check knowledge availability
   if (!isKnowledgeAvailable()) {
@@ -40,7 +50,6 @@ export async function pipelineHandler(ctx) {
   }
   
   // Extract the question
-  const rawText = ctx.message?.text || '';
   const botMention = `@${config.botUsername}`;
   const question = rawText.replace(new RegExp(botMention, 'gi'), '').trim();
   

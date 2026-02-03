@@ -104,7 +104,7 @@ export function createBot() {
   bot.command('debug', debugHandler);
   bot.command('price', priceHandler);
   bot.command('website', websiteHandler);
-  bot.command('contract', contractHandler);
+  bot.command('ca', contractHandler);
   bot.command('buy', buyHandler);
   bot.command('stake', stakeHandler);
   bot.command('governance', governanceHandler);

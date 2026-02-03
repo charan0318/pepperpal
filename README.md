@@ -74,7 +74,7 @@ Instant access to official resources - no AI processing required.
 | Command | Description |
 |---------|-------------|
 | `/website` | Official Peppercoin website |
-| `/contract` | PEPPER token contract address |
+| `/ca` | PEPPER token contract address |
 | `/buy` | How to buy PEPPER (exchanges and DEX) |
 | `/cex` | Centralized exchanges for PEPPER |
 | `/dex` | Decentralized exchanges for PEPPER |
@@ -307,7 +307,7 @@ Admin-only command showing aggregate metrics:
 - Admin commands (/health, /stats)
 
 ### Quick Commands
-`/website`, `/contract`, `/buy`, `/stake`, `/governance`, `/twitter`, `/x`, `/telegram`, `/coingecko`, `/explorer`, `/chain`, `/links`, `/tokenomics`
+`/website`, `/ca`, `/buy`, `/stake`, `/governance`, `/twitter`, `/x`, `/telegram`, `/coingecko`, `/explorer`, `/chain`, `/links`, `/tokenomics`
 
 ## License
 
