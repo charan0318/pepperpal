@@ -195,7 +195,7 @@ export function createBot() {
     { command: 'ask', description: 'Ask a question about Peppercoin' },
     { command: 'price', description: 'Live PEPPER price' },
     { command: 'website', description: 'Official website' },
-    { command: 'contract', description: 'PEPPER contract address' },
+    { command: 'ca', description: 'PEPPER contract address' },
     { command: 'buy', description: 'How to buy PEPPER' },
     { command: 'stake', description: 'Staking information' },
     { command: 'governance', description: 'Pepper Inc governance' },
