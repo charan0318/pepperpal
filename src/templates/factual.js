@@ -50,11 +50,11 @@ export const FACTUAL_TEMPLATES = {
   'is it audited': `Yes, the PEPPER contract is certified by ${VERIFIED_FACTS.AUDITOR}, a reputable blockchain security firm.`,
   
   // Exchanges
-  'exchanges': `PEPPER is available on:\n- DEX: FanX Protocol (${VERIFIED_FACTS.DEX})\n- CEX: MEXC, CoinEx, Paribu\n\nContract: ${VERIFIED_FACTS.CONTRACT}`,
+  'exchanges': `PEPPER is available on:\n- DEX: FanX Protocol (${VERIFIED_FACTS.DEX}), Kewl, Diviswap\n- CEX: MEXC, CoinEx, Bitrue, Cube, Paribu\n\nContract: ${VERIFIED_FACTS.CONTRACT}`,
   
-  'where to buy': `Buy PEPPER on:\n- DEX: FanX (${VERIFIED_FACTS.DEX}) - PEPPER/WCHZ pair\n- CEX: MEXC, CoinEx, Paribu\n\nAlways verify the contract: ${VERIFIED_FACTS.CONTRACT}`,
+  'where to buy': `Buy PEPPER on:\n- DEX: FanX (${VERIFIED_FACTS.DEX}), Kewl, Diviswap - PEPPER/WCHZ pair\n- CEX: MEXC, CoinEx, Bitrue, Cube, Paribu\n\nAlways verify the contract: ${VERIFIED_FACTS.CONTRACT}`,
   
-  'where can i buy': `Buy PEPPER on:\n- DEX: FanX (${VERIFIED_FACTS.DEX}) - PEPPER/WCHZ pair\n- CEX: MEXC, CoinEx, Paribu\n\nAlways verify the contract: ${VERIFIED_FACTS.CONTRACT}`,
+  'where can i buy': `Buy PEPPER on:\n- DEX: FanX (${VERIFIED_FACTS.DEX}), Kewl, Diviswap - PEPPER/WCHZ pair\n- CEX: MEXC, CoinEx, Bitrue, Cube, Paribu\n\nAlways verify the contract: ${VERIFIED_FACTS.CONTRACT}`,
 
   // Links - CRITICAL: bypass AI completely to avoid hallucinated URLs
   'links': `Official Peppercoin Links:\n\n🌐 Website: ${VERIFIED_FACTS.WEBSITE}\n🐦 Twitter: ${VERIFIED_FACTS.TWITTER}\n💬 Telegram: ${VERIFIED_FACTS.TELEGRAM}\n📊 CoinGecko: ${VERIFIED_FACTS.COINGECKO}\n🏛️ Governance: ${VERIFIED_FACTS.WEBSITE}/pepper-inc\n💱 FanX DEX: ${VERIFIED_FACTS.DEX}\n🔍 Explorer: https://chiliscan.com\n\n📝 Contract: ${VERIFIED_FACTS.CONTRACT}`,

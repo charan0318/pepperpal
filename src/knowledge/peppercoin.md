@@ -104,10 +104,14 @@ You need CHZ (Chiliz) tokens to pay for transaction fees on Chiliz Chain. CHZ is
 - FanX Protocol (app.fanx.xyz) - Primary DEX on Chiliz Chain
   - Trading pair: PEPPER/WCHZ
   - Highest liquidity
+- Kewl (kewl.exchange) - PEPPER/WCHZ
+- Diviswap (diviswap.io) - PEPPER/WCHZ
 
 **Centralized Exchanges (CEX):**
 - MEXC (PEPPER/USDT)
 - CoinEx (PEPPER/USDT)
+- Bitrue (PEPPER/USDT)
+- Cube (PEPPER/USDT)
 - Paribu (PEPPER/TRY)
 
 ### Step 4: Verify the Contract
@@ -163,8 +167,8 @@ A: PEPPER is exclusively on Chiliz Chain, an EVM-compatible Layer 1 blockchain f
 
 **Q: Where can I buy PEPPER?**
 A: PEPPER can be purchased on:
-- DEX: FanX Protocol (app.fanx.xyz) - pair with WCHZ
-- CEX: MEXC, CoinEx, Paribu
+- DEX: FanX Protocol (app.fanx.xyz), Kewelin, Diviswap - pair with WCHZ
+- CEX: MEXC, CoinEx, Bitrue, Cube, Kewl, Paribu
 The most active trading is on FanX Protocol.
 
 **Q: What is the contract address?**
