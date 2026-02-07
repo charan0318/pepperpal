@@ -186,7 +186,7 @@ export async function cexHandler(ctx) {
       '• MEXC: https://www.mexc.com/exchange/PEPPER_USDT\n' +
       '• CoinEx: https://www.coinex.com/en/exchange/PEPPER-USDT\n' +
       '• Bitrue: https://www.bitrue.com/trade/pepper_usdt/\n' +
-      '• Cube: https://www.cube.exchange/en/trade/PEPPERUSDT\n' ++
+      '• Cube: https://www.cube.exchange/en/trade/PEPPERUSDT\n' +
       '• Paribu: https://www.paribu.com/markets/pepper_tl',
       { disable_web_page_preview: true }
     );
