@@ -201,7 +201,7 @@ export async function dexHandler(ctx) {
     await ctx.reply(
       '🔄 Decentralized Exchange Listings:\n\n' +
       '• FanX Protocol: https://app.fanx.xyz (PEPPER/WCHZ)\n' +
-      '• Kewelin: https://kewelin.io/ (PEPPER/WCHZ)\n' +
+      '• Kewl: https://kewl.exchange/ (PEPPER/WCHZ)\n' +
       '• Diviswap: https://diviswap.io/ (PEPPER/WCHZ)\n\n' +
       'Contract: `0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67`',
       { parse_mode: 'Markdown', disable_web_page_preview: true }
