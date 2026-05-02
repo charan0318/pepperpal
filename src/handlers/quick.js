@@ -104,7 +104,6 @@ function buildBuyMessage(chainKey) {
       'CEX listings:',
       formatCexes(VERIFIED_FACTS.CHAINS.chiliz),
       '',
-      formatContractLine(chain),
     ].join('\n');
   }
 
@@ -121,8 +120,7 @@ function buildBuyMessage(chainKey) {
     ].join('\n')),
     'Centralized exchanges:',
     formatCexes(VERIFIED_FACTS.CHAINS.chiliz),
-    '',
-    formatContractLine(VERIFIED_FACTS.CHAINS.chiliz),
+      '',
   ].join('\n').trim();
 }
 
