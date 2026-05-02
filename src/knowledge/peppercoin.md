@@ -11,7 +11,7 @@
 |----------|-------|
 | Token Name | Peppercoin |
 | Symbol | $PEPPER |
-| Blockchain | Chiliz Chain |
+| Blockchain | Omnichain: Chiliz Chain, Base, Solana |
 | Token Standard | CAP20 (EVM-compatible) |
 | Contract | `0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67` |
 | Max Supply | 8,888,888,888,000,000 PEPPER |
@@ -22,9 +22,21 @@
 
 ---
 
+## Omnichain Overview
+
+PEPPER is now tracked across Chiliz Chain, Base, and Solana. The official knowledge base keeps the verified Chiliz contract in sync and marks Base and Solana details as pending until their addresses are confirmed.
+
+| Chain | Contract / Program | Explorer | Gas Token | Status |
+|------|--------------------|-----------|-----------|--------|
+| Chiliz Chain | `0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67` | https://chiliscan.com | CHZ | Verified |
+| Base | `0x5e985e4bca4664e985f3faf8140eba25b10e28c2` | https://basescan.org | ETH | Verified |
+| Solana | `GozPNCAseytzxCR3d2k8hTsTYkr4SDpuXy2RQAZFVx2g` | https://solscan.io | SOL | Verified |
+
+---
+
 ## What is Peppercoin?
 
-Peppercoin ($PEPPER) is a community token built on Chiliz Chain, designed to reward the Chiliz community and $CHZ token holders. It brings engagement and community spirit to the Chiliz ecosystem.
+Peppercoin ($PEPPER) is a community token now supported across Chiliz Chain, Base, and Solana. It brings engagement and community spirit to the Pepper community while keeping verified on-chain references in the official knowledge base.
 
 **Core Principles:**
 - Fair Launch: No pre-minting or ICO. Everyone started with equal opportunity
@@ -32,7 +44,7 @@ Peppercoin ($PEPPER) is a community token built on Chiliz Chain, designed to rew
 - Decentralized Governance: Token holders vote on treasury and project decisions via Pepper Inc
 
 **What Makes PEPPER Unique:**
-- Native to Chiliz Chain (the sports blockchain powering 70+ elite sports teams)
+- Omnichain support across Chiliz Chain, Base, and Solana
 - Governed entirely by the community through Pepper Inc DAO
 - No team allocation or insider advantages
 - Transparent on-chain treasury management
@@ -85,27 +97,45 @@ Pepper Inc is the decentralized governance system for Peppercoin. It allows toke
 ## How to Get Started
 
 ### Step 1: Set Up a Wallet
-Use a wallet that supports Chiliz Chain:
-- MetaMask (add Chiliz Chain network)
-- Any EVM-compatible wallet
+Use a wallet that supports the chain you want to use:
+- Chiliz Chain: MetaMask or any EVM-compatible wallet
+- Base: MetaMask or any EVM-compatible wallet
+- Solana: Phantom or another Solana wallet
 
-**Chiliz Chain Network Details:**
-- Network Name: Chiliz Chain
-- RPC URL: https://rpc.chiliz.com
-- Chain ID: 88888
-- Symbol: CHZ
-- Explorer: https://chiliscan.com
+**Network Details:**
+- Chiliz Chain
+  - RPC URL: https://rpc.chiliz.com
+  - Chain ID: 88888
+  - Symbol: CHZ
+  - Explorer: https://chiliscan.com
+- Base
+  - RPC URL: https://mainnet.base.org
+  - Chain ID: 8453
+  - Symbol: ETH
+  - Explorer: https://basescan.org
+- Solana
+  - RPC URL: https://api.mainnet-beta.solana.com
+  - Cluster: mainnet-beta
+  - Symbol: SOL
+  - Explorer: https://solscan.io
 
 ### Step 2: Get CHZ for Gas
-You need CHZ (Chiliz) tokens to pay for transaction fees on Chiliz Chain. CHZ is available on major exchanges.
+You need the native gas token for the chain you are using: CHZ on Chiliz Chain, ETH on Base, and SOL on Solana.
 
 ### Step 3: Acquire PEPPER
 **Decentralized Exchanges (DEX):**
-- FanX Protocol (app.fanx.xyz) - Primary DEX on Chiliz Chain
-  - Trading pair: PEPPER/WCHZ
-  - Highest liquidity
-- Kewl (kewl.exchange) - PEPPER/WCHZ
-- Diviswap (diviswap.io) - PEPPER/WCHZ
+- Chiliz Chain
+  - FanX Protocol (app.fanx.xyz) - Primary DEX on Chiliz Chain
+    - Trading pair: PEPPER/WCHZ
+    - Highest liquidity
+  - Kewl (kewl.exchange) - PEPPER/WCHZ
+  - Diviswap (diviswap.io) - PEPPER/WCHZ
+- Base
+  - Aerodrome (aerodrome.finance)
+
+- Solana
+  - Meteora (meteora.xyz) - Solana markets & swaps
+  - Jupiter (jup.ag) - Solana swap aggregator
 
 **Centralized Exchanges (CEX):**
 - MEXC (PEPPER/USDT)
@@ -114,9 +144,12 @@ You need CHZ (Chiliz) tokens to pay for transaction fees on Chiliz Chain. CHZ is
 - Cube (PEPPER/USDT)
 - Paribu (PEPPER/TRY)
 
-### Step 4: Verify the Contract
-Always verify you are interacting with the official contract:
-`0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67`
+### Step 4: Verify the Contract or Program
+Always verify you are interacting with the official PEPPER address for the chain you are using.
+
+- Chiliz Chain: `0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67`
+- Base: pending verification
+- Solana: pending verification
 
 ### Step 5: Join the Community
 - Telegram: https://t.me/officialpeppercoin
@@ -149,7 +182,7 @@ Always verify you are interacting with the official contract:
 ### General
 
 **Q: What is Peppercoin?**
-A: Peppercoin ($PEPPER) is a community token on Chiliz Chain created to reward and engage the Chiliz community. It features fair distribution, community governance, and transparent treasury management.
+A: Peppercoin ($PEPPER) is a community token supported across Chiliz Chain, Base, and Solana. It features fair distribution, community governance, and transparent treasury management.
 
 **Q: Is PEPPER a meme coin?**
 A: PEPPER is categorized as a community/meme token. While it has meme culture elements, it also has real utility through governance (Pepper Inc) and community-driven treasury management.
@@ -161,20 +194,22 @@ A: PEPPER was created for the Chiliz community with a fair launch.  It is commun
 A: PEPPER launched in October 2024 through a fair distribution mechanism on Chiliz Chain.
 
 **Q: What blockchain is PEPPER on?**
-A: PEPPER is exclusively on Chiliz Chain, an EVM-compatible Layer 1 blockchain focused on sports and entertainment.
+A: PEPPER is supported across Chiliz Chain, Base, and Solana. Chiliz remains the verified reference chain in this knowledge base.
 
 ### Buying and Trading
 
 **Q: Where can I buy PEPPER?**
 A: PEPPER can be purchased on:
-- DEX: FanX Protocol (app.fanx.xyz), Kewelin, Diviswap - pair with WCHZ
-- CEX: MEXC, CoinEx, Bitrue, Cube, Kewl, Paribu
-The most active trading is on FanX Protocol.
+- Chiliz DEX: FanX Protocol (app.fanx.xyz), Kewl, Diviswap - pair with WCHZ
+- Base: DEX listings pending verification
+- Solana: DEX listings pending verification
+- CEX: MEXC, CoinEx, Bitrue, Cube, Paribu
+The most active verified trading is on FanX Protocol.
 
 **Q: What is the contract address?**
 A: The official PEPPER contract is:
 `0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67`
-Always verify this address before any transaction. Only trust contracts on Chiliz Chain.
+Always verify this address before any transaction. Base and Solana addresses are tracked separately and remain pending verification in this version of the knowledge base.
 
 **Q: What wallet should I use?**
 A: Any EVM-compatible wallet works. MetaMask is popular - just add Chiliz Chain as a custom network (Chain ID: 88888).
@@ -182,12 +217,12 @@ A: Any EVM-compatible wallet works. MetaMask is popular - just add Chiliz Chain 
 **Q: How do I add PEPPER to my wallet?**
 A: Add the token contract address to your wallet:
 `0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67`
-Make sure your wallet is connected to Chiliz Chain network.
+Make sure your wallet is connected to the correct chain network.
 
 **Q: Why can't I see PEPPER in my wallet?**
 A: Make sure you:
-1. Are connected to Chiliz Chain (not Ethereum or other networks)
-2. Have added the PEPPER token contract address manually
+1. Are connected to the correct chain network
+2. Have added the correct PEPPER address for that chain
 3. Wait a few minutes for the balance to sync
 
 ### Governance and Staking
@@ -227,12 +262,18 @@ A: Yes, PEPPER is certified by Halborn, a reputable blockchain security firm.
 A: The official Telegram is https://t.me/officialpeppercoin - verify through the website peppercoin.com or Twitter @PepperChain.
 
 **Q: Are there fake PEPPER tokens?**
-A: Yes, scammers may create fake tokens on other chains. The ONLY official PEPPER is on Chiliz Chain with contract `0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67`.
+A: Yes, scammers may create fake tokens on other chains. Always verify the official PEPPER address for the chain you are using, and only trust addresses published in the official knowledge base.
 
 ### Technical
 
 **Q: What is Chiliz Chain?**
 A: Chiliz Chain is an EVM-compatible Layer 1 blockchain built for sports and entertainment. It powers 70+ elite sports team Fan Tokens and is the home of PEPPER.
+
+**Q: Which chain should I use?**
+A: Use the chain where you already hold PEPPER and the chain's native gas token. Chiliz is the most mature verified reference chain in the knowledge base.
+
+**Q: How do I bridge PEPPER?**
+A: Use the official Chiliz bridge for cross-chain transfers: https://bridge.chilizchain.com. Always verify destination chain and token address before bridging. Smaller bridges or third-party bridges may exist; prefer official links and announcements.
 
 **Q: What are gas fees like on Chiliz Chain?**
 A: Gas fees on Chiliz Chain are paid in CHZ and are generally very low compared to Ethereum mainnet.

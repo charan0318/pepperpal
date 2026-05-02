@@ -75,7 +75,7 @@ Instant access to official resources - no AI processing required.
 |---------|-------------|
 | `/website` | Official Peppercoin website |
 | `/ca` | PEPPER token contract address |
-| `/buy` | How to buy PEPPER (exchanges and DEX) |
+| `/buy` or `/sell` | How to trade PEPPER (chains, exchanges, and DEX) |
 | `/cex` | Centralized exchanges for PEPPER |
 | `/dex` | Decentralized exchanges for PEPPER |
 | `/stake` | Staking information and Pepper Inc |
@@ -83,8 +83,9 @@ Instant access to official resources - no AI processing required.
 | `/twitter` or `/x` | Official Twitter/X account |
 | `/telegram` | Official Telegram community |
 | `/coingecko` | CoinGecko listing page |
-| `/explorer` | Chiliz Chain block explorer |
-| `/chain` | Chiliz Chain network details |
+| `/explorer` | PEPPER explorers |
+| `/chain` | Supported PEPPER chains |
+| `/bridge` | PEPPER bridge info |
 | `/links` | All official links in one message |
 | `/tokenomics` | Token supply and distribution info |
 

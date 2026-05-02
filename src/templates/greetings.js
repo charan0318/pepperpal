@@ -10,7 +10,7 @@ import { VERIFIED_FACTS } from '../constants.js';
  * Randomly selected to add variety
  */
 export const GREETING_TEMPLATES = [
-  `Hey there! I'm Pepper Pal, your guide to Peppercoin on Chiliz Chain. What would you like to know?`,
+  `Hey there! I'm Pepper Pal, your guide to Peppercoin across Chiliz Chain, Base, and Solana. What would you like to know?`,
   
   `Hello! Welcome to the PEPPER community. Ask me about buying, governance, or getting started.`,
   
@@ -18,7 +18,7 @@ export const GREETING_TEMPLATES = [
   
   `Hi! I'm Pepper Pal. Curious about PEPPER? I can help with buying, staking, and more.`,
   
-  `Welcome! I'm your Peppercoin assistant. Ask me anything about PEPPER on Chiliz Chain.`,
+  `Welcome! I'm your Peppercoin assistant. Ask me anything about PEPPER across Chiliz Chain, Base, or Solana.`,
   
   `Hey! Ready to learn about PEPPER? I can explain the basics, help you buy, or guide you through governance.`,
   

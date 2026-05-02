@@ -27,6 +27,10 @@ export const VERIFIED_LINKS = {
   chiliz: 'https://www.chiliz.com',
   explorer: 'https://chiliscan.com',
   chiliscan: 'https://chiliscan.com',
+  base: 'https://base.org',
+  basescan: 'https://basescan.org',
+  solana: 'https://solana.com',
+  solscan: 'https://solscan.io',
 };
 
 // Keywords that trigger specific links
@@ -39,6 +43,8 @@ export const LINK_TRIGGERS = {
   fanx: ['fanx', 'dex', 'swap', 'trade', 'buy', 'exchange', 'buy pepper', 'all links', 'all the links', 'links'],
   explorer: ['explorer', 'chiliscan', 'scan', 'contract', 'verify', 'block', 'all links', 'all the links', 'links'],
   chiliz: ['chiliz chain', 'chiliz', 'chz', 'network'],
+  base: ['base chain', 'base', 'basescan', 'coinbase l2'],
+  solana: ['solana chain', 'solana', 'solscan', 'sol'],
 };
 
 /**
@@ -84,6 +90,8 @@ function getLinkLabel(key) {
     fanx: 'FanX DEX',
     explorer: 'Chiliscan Explorer',
     chiliz: 'Chiliz Chain',
+    base: 'Base Chain',
+    solana: 'Solana',
   };
   return labels[key] || key;
 }

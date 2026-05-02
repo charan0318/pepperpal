@@ -1,5 +1,189 @@
 import logger from '../utils/logger.js';
 import config from '../config.js';
+import { VERIFIED_FACTS } from '../constants.js';
+
+const CHAIN_ALIASES = {
+  chiliz: 'chiliz',
+  chz: 'chiliz',
+  base: 'base',
+  solana: 'solana',
+  sol: 'solana',
+};
+
+function getChains() {
+  return Object.values(VERIFIED_FACTS.CHAINS);
+}
+
+function normalizeChainKey(value) {
+  if (!value) return null;
+  const normalized = value.toLowerCase().trim();
+  return CHAIN_ALIASES[normalized] || null;
+}
+
+function getRequestedChain(text) {
+  const rawArg = text?.split(/\s+/)[1];
+  return normalizeChainKey(rawArg);
+}
+
+function formatContractLine(chain) {
+  const contractLabel = chain.contractLabel || 'Contract';
+  const contractValue = chain.contract || 'Pending verification';
+
+  return chain.verified
+    ? `${contractLabel}: \`${contractValue}\``
+    : `${contractLabel}: ${contractValue}`;
+}
+
+function formatChainHeader(chain) {
+  return chain.name;
+}
+
+function formatTradePairs(chain) {
+  if (!chain.tradingPairs || chain.tradingPairs.length === 0) {
+    return '• DEX listings: pending verification';
+  }
+
+  return chain.tradingPairs.map((pair) => `• Pair: ${pair}`).join('\n');
+}
+
+function formatDexes(chain) {
+  if (!chain.dexes || chain.dexes.length === 0) {
+    return '• DEX listings: pending verification';
+  }
+
+  return chain.dexes
+    .map((dex) => `• ${dex.name}: ${dex.url}${chain.tradingPairs?.length ? ` (${chain.tradingPairs.join(', ')})` : ''}`)
+    .join('\n');
+}
+
+function formatCexes(chain) {
+  if (!chain.cexes || chain.cexes.length === 0) {
+    return '• CEX listings: pending verification';
+  }
+
+  return chain.cexes.map((cex) => `• ${cex.name}: ${cex.url}`).join('\n');
+}
+
+function buildContractMessage(chainKey) {
+  if (chainKey) {
+    const chain = VERIFIED_FACTS.CHAINS[chainKey];
+    return [
+      `${formatChainHeader(chain)} Contract`,
+      '',
+      formatContractLine(chain),
+      `Explorer: ${chain.explorer}`,
+      `RPC: ${chain.rpcUrl}`,
+      `Gas token: ${chain.gasToken}`,
+    ].join('\n');
+  }
+
+  return [
+    'PEPPER chain contracts:',
+    '',
+    ...getChains().map((chain) => [
+      `${chain.name}:`,
+      formatContractLine(chain),
+      `Explorer: ${chain.explorer}`,
+      `RPC: ${chain.rpcUrl}`,
+      `Gas token: ${chain.gasToken}`,
+      '',
+    ].join('\n')),
+  ].join('\n').trim();
+}
+
+function buildBuyMessage(chainKey) {
+  if (chainKey) {
+    const chain = VERIFIED_FACTS.CHAINS[chainKey];
+    return [
+      `How to trade PEPPER on ${chain.name}:`,
+      '',
+      `Gas token: ${chain.gasToken}`,
+      formatDexes(chain),
+      formatTradePairs(chain),
+      '',
+      'CEX listings:',
+      formatCexes(VERIFIED_FACTS.CHAINS.chiliz),
+      '',
+      formatContractLine(chain),
+    ].join('\n');
+  }
+
+  return [
+    'How to Buy or Sell PEPPER:',
+    '',
+    ...getChains().map((chain) => [
+      `${chain.name}:`,
+      `Gas token: ${chain.gasToken}`,
+      formatDexes(chain),
+      formatTradePairs(chain),
+      `Explorer: ${chain.explorer}`,
+      '',
+    ].join('\n')),
+    'Centralized exchanges:',
+    formatCexes(VERIFIED_FACTS.CHAINS.chiliz),
+    '',
+    formatContractLine(VERIFIED_FACTS.CHAINS.chiliz),
+  ].join('\n').trim();
+}
+
+function buildExplorerMessage(chainKey) {
+  if (chainKey) {
+    const chain = VERIFIED_FACTS.CHAINS[chainKey];
+    return [
+      `${chain.name} Explorer`,
+      chain.explorer,
+      '',
+      formatContractLine(chain),
+    ].join('\n');
+  }
+
+  return [
+    'PEPPER explorers:',
+    '',
+    ...getChains().map((chain) => `${chain.name}: ${chain.explorer}`),
+  ].join('\n');
+}
+
+function buildChainMessage(chainKey) {
+  if (chainKey) {
+    const chain = VERIFIED_FACTS.CHAINS[chainKey];
+    return [
+      `${chain.name} Network Details`,
+      '',
+      `Chain ID: ${chain.chainId}`,
+      `RPC: ${chain.rpcUrl}`,
+      `Explorer: ${chain.explorer}`,
+      `Gas token: ${chain.gasToken}`,
+      formatContractLine(chain),
+      `Bridge: ${chain.bridge}`,
+    ].join('\n');
+  }
+
+  return [
+    'Supported PEPPER chains:',
+    '',
+    ...getChains().map((chain) => [
+      `${chain.name}:`,
+      `Chain ID: ${chain.chainId}`,
+      `RPC: ${chain.rpcUrl}`,
+      `Explorer: ${chain.explorer}`,
+      `Gas token: ${chain.gasToken}`,
+      formatContractLine(chain),
+      `Bridge: ${chain.bridge}`,
+      '',
+    ].join('\n')),
+  ].join('\n').trim();
+}
+
+function buildBridgeMessage() {
+  return [
+    'PEPPER bridge status:',
+    '',
+    ...getChains().map((chain) => `${chain.name}: ${chain.bridge}`),
+    '',
+    'If you need a bridge workflow, share the official bridge link and I will wire it in.'
+  ].join('\n');
+}
 
 /**
  * Quick Commands - Static responses for instant information
@@ -26,10 +210,9 @@ export async function websiteHandler(ctx) {
 
 export async function contractHandler(ctx) {
   try {
+    const chainKey = getRequestedChain(ctx.message?.text);
     await ctx.reply(
-      'PEPPER Contract Address:\n' +
-      '`0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67`\n\n' +
-      'Network: Chiliz Chain (88888)',
+      buildContractMessage(chainKey),
       { parse_mode: 'Markdown' }
     );
     logger.info('Contract command handled', { userId: ctx.from?.id });
@@ -40,16 +223,9 @@ export async function contractHandler(ctx) {
 
 export async function buyHandler(ctx) {
   try {
+    const chainKey = getRequestedChain(ctx.message?.text);
     await ctx.reply(
-      'How to Buy PEPPER:\n\n' +
-      '🟢 Decentralized:\n' +
-      '• FanX DEX: https://app.fanx.xyz\n\n' +
-      '• Diviswap: https://diviswap.io/\n\n' +
-      '🟢 Centralized Exchanges:\n' +
-      '• MEXC: https://www.mexc.com\n' +
-      '• CoinEx: https://www.coinex.com\n' +
-      '• Paribu: https://www.paribu.com\n\n' +
-      'Contract: `0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67`',
+      buildBuyMessage(chainKey),
       { parse_mode: 'Markdown' }
     );
     logger.info('Buy command handled', { userId: ctx.from?.id });
@@ -116,10 +292,10 @@ export async function coingeckoHandler(ctx) {
 
 export async function explorerHandler(ctx) {
   try {
+    const chainKey = getRequestedChain(ctx.message?.text);
     await ctx.reply(
-      'Chiliz Chain Explorer:\n' +
-      'https://chiliscan.com\n\n' +
-      'View PEPPER transactions and holder data.'
+      buildExplorerMessage(chainKey),
+      { parse_mode: 'Markdown', disable_web_page_preview: true }
     );
     logger.info('Explorer command handled', { userId: ctx.from?.id });
   } catch (err) {
@@ -129,13 +305,10 @@ export async function explorerHandler(ctx) {
 
 export async function chainHandler(ctx) {
   try {
+    const chainKey = getRequestedChain(ctx.message?.text);
     await ctx.reply(
-      'Chiliz Chain Details:\n\n' +
-      '• Chain ID: 88888\n' +
-      '• RPC: https://rpc.chiliz.com\n' +
-      '• Explorer: https://chiliscan.com\n' +
-      '• Type: EVM-compatible\n\n' +
-      'PEPPER lives on Chiliz Chain.'
+      buildChainMessage(chainKey),
+      { parse_mode: 'Markdown', disable_web_page_preview: true }
     );
     logger.info('Chain command handled', { userId: ctx.from?.id });
   } catch (err) {
@@ -152,8 +325,8 @@ export async function linksHandler(ctx) {
       '💬 Telegram: https://t.me/officialpeppercoin\n' +
       '🗳️ Governance: https://www.peppercoin.com/pepper-inc\n' +
       '🦎 CoinGecko: https://www.coingecko.com/en/coins/pepper\n' +
-      '🔍 Explorer: https://chiliscan.com\n' +
-      '💱 FanX DEX: https://app.fanx.xyz\n\n' +
+      '🔍 Explorers: https://chiliscan.com | https://basescan.org | https://solscan.io\n' +
+      '💱 DEX: FanX, Kewl, Diviswap\n\n' +
       'Contract: `0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67`',
       { parse_mode: 'Markdown' }
     );
@@ -169,7 +342,7 @@ export async function tokenomicsHandler(ctx) {
       'PEPPER Tokenomics:\n\n' +
       '📊 Max Supply: 8,888,888,888,000,000\n' +
       '🔥 Burning: No token burning\n' +
-      '⚡ Network: Chiliz Chain (88888)\n' +
+      '⚡ Networks: Chiliz Chain, Base, Solana\n' +
       '🔒 Security: Halborn audited\n\n' +
       '~50% of circulating supply is staked in Pepper Inc governance.'
     );
@@ -203,12 +376,21 @@ export async function dexHandler(ctx) {
       '• FanX Protocol: https://app.fanx.xyz (PEPPER/WCHZ)\n' +
       '• Kewl: https://kewl.exchange/ (PEPPER/WCHZ)\n' +
       '• Diviswap: https://diviswap.io/ (PEPPER/WCHZ)\n\n' +
-      'Contract: `0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67`',
+      'Base and Solana listings are pending verification.',
       { parse_mode: 'Markdown', disable_web_page_preview: true }
     );
     logger.info('DEX command handled', { userId: ctx.from?.id });
   } catch (err) {
     logger.error('Failed to send DEX info', { error: err.message });
+  }
+}
+
+export async function bridgeHandler(ctx) {
+  try {
+    await ctx.reply(buildBridgeMessage(), { disable_web_page_preview: true });
+    logger.info('Bridge command handled', { userId: ctx.from?.id });
+  } catch (err) {
+    logger.error('Failed to send bridge info', { error: err.message });
   }
 }
 
@@ -228,4 +410,5 @@ export default {
   tokenomicsHandler,
   cexHandler,
   dexHandler,
+  bridgeHandler,
 };

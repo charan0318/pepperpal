@@ -31,6 +31,7 @@ import {
   tokenomicsHandler,
   cexHandler,
   dexHandler,
+  bridgeHandler,
 } from './handlers/quick.js';
 import { priceHandler } from './handlers/price.js';
 import { analyticsHandler } from './handlers/analytics.js';
@@ -106,6 +107,7 @@ export function createBot() {
   bot.command('website', websiteHandler);
   bot.command('ca', contractHandler);
   bot.command('buy', buyHandler);
+  bot.command('sell', buyHandler);
   bot.command('stake', stakeHandler);
   bot.command('governance', governanceHandler);
   bot.command('twitter', twitterHandler);
@@ -114,6 +116,7 @@ export function createBot() {
   bot.command('coingecko', coingeckoHandler);
   bot.command('explorer', explorerHandler);
   bot.command('chain', chainHandler);
+  bot.command('bridge', bridgeHandler);
   bot.command('links', linksHandler);
   bot.command('tokenomics', tokenomicsHandler);
   bot.command('cex', cexHandler);
@@ -196,14 +199,16 @@ export function createBot() {
     { command: 'price', description: 'Live PEPPER price' },
     { command: 'website', description: 'Official website' },
     { command: 'ca', description: 'PEPPER contract address' },
-    { command: 'buy', description: 'How to buy PEPPER' },
+    { command: 'buy', description: 'How to buy or sell PEPPER' },
+    { command: 'sell', description: 'How to buy or sell PEPPER' },
     { command: 'stake', description: 'Staking information' },
     { command: 'governance', description: 'Pepper Inc governance' },
     { command: 'twitter', description: 'Official Twitter/X' },
     { command: 'telegram', description: 'Official Telegram' },
     { command: 'coingecko', description: 'CoinGecko page' },
-    { command: 'explorer', description: 'Chiliz Chain explorer' },
-    { command: 'chain', description: 'Chiliz Chain details' },
+    { command: 'explorer', description: 'PEPPER explorers' },
+    { command: 'chain', description: 'Supported PEPPER chains' },
+    { command: 'bridge', description: 'PEPPER bridge info' },
     { command: 'links', description: 'All official links' },
     { command: 'tokenomics', description: 'Token supply and info' },
   ]).catch(err => {

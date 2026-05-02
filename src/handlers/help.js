@@ -35,9 +35,9 @@ In groups:
 
 I can help with:
 - Peppercoin basics and how it works
-- Buying PEPPER and wallet setup
+- Buying or selling PEPPER and wallet setup
 - Pepper Inc governance and staking
-- Official links and resources
+- Official links, chains, and resources
 - Safety tips and scam prevention
 
 I cannot help with:

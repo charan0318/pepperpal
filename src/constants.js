@@ -88,6 +88,71 @@ export const VERIFIED_FACTS = {
   TOTAL_SUPPLY: '8,888,888,888,000,000',
   BURNED: '128 trillion',
   AUDITOR: 'Halborn',
+  CHAINS: {
+    chiliz: {
+      key: 'chiliz',
+      name: 'Chiliz Chain',
+      displayName: 'Chiliz',
+      contractLabel: 'Contract',
+      contract: '0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67',
+      chainId: '88888',
+      rpcUrl: 'https://rpc.chiliz.com',
+      explorer: 'https://chiliscan.com',
+      gasToken: 'CHZ',
+      tradingPairs: ['PEPPER/WCHZ'],
+      dexes: [
+        { name: 'FanX Protocol', url: 'https://app.fanx.xyz' },
+        { name: 'Kewl', url: 'https://kewl.exchange/' },
+        { name: 'Diviswap', url: 'https://diviswap.io/' }
+      ],
+      cexes: [
+        { name: 'MEXC', url: 'https://www.mexc.com' },
+        { name: 'CoinEx', url: 'https://www.coinex.com' },
+        { name: 'Bitrue', url: 'https://www.bitrue.com' },
+        { name: 'Cube', url: 'https://www.cube.exchange' },
+        { name: 'Paribu', url: 'https://www.paribu.com' },
+      ],
+      bridge: 'https://bridge.chilizchain.com',
+      verified: true,
+    },
+    base: {
+      key: 'base',
+      name: 'Base',
+      displayName: 'Base',
+      contractLabel: 'Contract',
+      contract: '0x5e985e4bca4664e985f3faf8140eba25b10e28c2',
+      chainId: '8453',
+      rpcUrl: 'https://mainnet.base.org',
+      explorer: 'https://basescan.org',
+      gasToken: 'ETH',
+      tradingPairs: ['PEPPER/ETH'],
+      dexes: [
+        { name: 'Aerodrome', url: 'https://aerodrome.finance' }
+      ],
+      cexes: [],
+      bridge: 'https://bridge.chilizchain.com',
+      verified: true,
+    },
+    solana: {
+      key: 'solana',
+      name: 'Solana',
+      displayName: 'Solana',
+      contractLabel: 'Program',
+      contract: 'GozPNCAseytzxCR3d2k8hTsTYkr4SDpuXy2RQAZFVx2g',
+      chainId: 'mainnet-beta',
+      rpcUrl: 'https://api.mainnet-beta.solana.com',
+      explorer: 'https://solscan.io',
+      gasToken: 'SOL',
+      tradingPairs: ['PEPPER/SOL'],
+      dexes: [
+        { name: 'Meteora', url: 'https://meteora.xyz' },
+        { name: 'Jupiter', url: 'https://jup.ag' },
+      ],
+      cexes: [],
+      bridge: 'https://bridge.chilizchain.com',
+      verified: true,
+    },
+  },
 };
 
 export default {

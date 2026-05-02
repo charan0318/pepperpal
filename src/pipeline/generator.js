@@ -192,7 +192,7 @@ async function generateFromAI(plan, query, classification) {
 function buildConstrainedPrompt(plan, classification) {
   const charLimit = plan.charBudget;
   
-  let prompt = `You are Pepper Pal, a friendly community assistant for Peppercoin ($PEPPER) on Chiliz Chain.
+  let prompt = `You are Pepper Pal, a friendly community assistant for Peppercoin ($PEPPER) across Chiliz Chain, Base, and Solana.
 
 GUIDELINES:
 - Aim for ${charLimit} characters, but prioritize completeness

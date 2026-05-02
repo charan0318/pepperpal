@@ -6,6 +6,36 @@
 
 import { VERIFIED_FACTS } from '../constants.js';
 
+function getChain(key) {
+  return VERIFIED_FACTS.CHAINS[key];
+}
+
+function chainContractResponse(chainKey) {
+  const chain = getChain(chainKey);
+  return `${chain.name} ${chain.contractLabel || 'Contract'}: ${chain.contract}`;
+}
+
+function chainBuyResponse(chainKey) {
+  const chain = getChain(chainKey);
+  const dexes = chain.dexes && chain.dexes.length > 0
+    ? chain.dexes.map((dex) => `- ${dex.name}: ${dex.url}`).join('\n')
+    : '- DEX listings are pending verification.';
+
+  return `Buy PEPPER on ${chain.name}:\n${dexes}`;
+}
+
+function chainExplorerResponse(chainKey) {
+  const chain = getChain(chainKey);
+  return `${chain.name} explorer: ${chain.explorer}`;
+}
+
+const CHAIN_QUERY_PATTERNS = {
+  contract: ['chiliz', 'base', 'solana'],
+  buy: ['chiliz', 'base', 'solana'],
+  explorer: ['chiliz', 'base', 'solana'],
+  chain: ['chiliz', 'base', 'solana'],
+};
+
 /**
  * Factual templates for exact-match queries
  * Key is normalized query pattern, value is response
@@ -70,6 +100,24 @@ export const FACTUAL_TEMPLATES = {
   'social links': `Peppercoin Socials:\n\n🐦 Twitter: ${VERIFIED_FACTS.TWITTER}\n💬 Telegram: ${VERIFIED_FACTS.TELEGRAM}\n🌐 Website: ${VERIFIED_FACTS.WEBSITE}`,
 };
 
+for (const chainKey of CHAIN_QUERY_PATTERNS.contract) {
+  const chain = getChain(chainKey);
+  const contractQuery = `contract ${chainKey}`;
+  const contractAddressQuery = `contract address ${chainKey}`;
+  const buyQuery = `buy ${chainKey}`;
+  const buyPepperQuery = `buy pepper on ${chainKey}`;
+  const explorerQuery = `explorer ${chainKey}`;
+  const chainQuery = `${chainKey} chain`;
+
+  FACTUAL_TEMPLATES[contractQuery] = chainContractResponse(chainKey);
+  FACTUAL_TEMPLATES[contractAddressQuery] = chainContractResponse(chainKey);
+  FACTUAL_TEMPLATES[`what is the contract on ${chainKey}`] = chainContractResponse(chainKey);
+  FACTUAL_TEMPLATES[buyQuery] = chainBuyResponse(chainKey);
+  FACTUAL_TEMPLATES[buyPepperQuery] = chainBuyResponse(chainKey);
+  FACTUAL_TEMPLATES[explorerQuery] = chainExplorerResponse(chainKey);
+  FACTUAL_TEMPLATES[chainQuery] = `${chain.name} chain details: chain ID ${chain.chainId}, explorer ${chain.explorer}, gas token ${chain.gasToken}.`;
+}
+
 /**
  * Try to match query to factual template
  * @param {string} query - Normalized query
@@ -93,7 +141,8 @@ export function matchFactualTemplate(query) {
       'contract address', 'what is the contract', 'chain id', 'what is the chain id',
       'website', 'telegram', 'twitter', 'total supply', 'what is the total supply',
       'burned', 'how much has been burned', 'audited', 'is the contract audited', 'is it audited',
-      'exchanges'
+      'exchanges', 'contract base', 'contract chiliz', 'contract solana', 'buy base', 'buy chiliz', 'buy solana',
+      'explorer base', 'explorer chiliz', 'explorer solana', 'base chain', 'chiliz chain', 'solana chain'
     ];
     
     if (safePartialKeys.includes(key)) {

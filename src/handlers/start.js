@@ -8,13 +8,13 @@ import config from '../config.js';
 export async function startHandler(ctx) {
   const firstName = ctx.from?.first_name || 'there';
 
-  const message = `Hey ${firstName}! Welcome to Pepper Pal, your community assistant for Peppercoin on Chiliz Chain.
+  const message = `Hey ${firstName}! Welcome to Pepper Pal, your community assistant for Peppercoin across Chiliz Chain, Base, and Solana.
 
 I can help you with:
 - How Peppercoin works and how to get started
 - Tokenomics and supply information
 - Pepper Inc governance and staking
-- Finding official resources and links
+- Finding official resources, chains, and links
 - Common questions about the community
 
 Quick start:
