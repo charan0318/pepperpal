@@ -68,12 +68,18 @@ function formatChange(change) {
 
 /**
  * Format timestamp as HH:MM:SS UTC
- * @param {number} unixTimestamp - Unix timestamp in seconds
+ * @param {number|string} timestamp - Unix timestamp in seconds or ISO string
  * @returns {string}
  */
-function formatTimestamp(unixTimestamp) {
-  if (!unixTimestamp) return 'N/A';
-  const date = new Date(unixTimestamp * 1000);
+function formatTimestamp(timestamp) {
+  if (!timestamp) return 'N/A';
+
+  const date = typeof timestamp === 'number'
+    ? new Date(timestamp * 1000)
+    : new Date(timestamp);
+
+  if (Number.isNaN(date.getTime())) return 'N/A';
+
   return date.toISOString().slice(11, 19) + ' UTC';
 }
 

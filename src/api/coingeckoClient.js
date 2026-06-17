@@ -78,17 +78,11 @@ export async function fetchPepperPrice() {
 
   const params = new URLSearchParams({
     ids: PEPPER_COIN_ID,
-    vs_currencies: 'usd',
-    include_market_cap: 'true',
-    include_24hr_vol: 'true',
-    include_24hr_change: 'true',
-    include_7d_change: 'true',
-    include_30d_change: 'true',
-    include_circulating_supply: 'true',
-    include_last_updated_at: 'true',
+    vs_currency: 'usd',
+    price_change_percentage: '24h,7d,30d',
   });
 
-  const url = `${COINGECKO_API_URL}/simple/price?${params}`;
+  const url = `${COINGECKO_API_URL}/coins/markets?${params}`;
 
   const headers = {
     Accept: 'application/json',
@@ -138,8 +132,9 @@ export async function fetchPepperPrice() {
     }
 
     const json = await response.json();
+    const pepperData = Array.isArray(json) ? json[0] : null;
 
-    if (!json[PEPPER_COIN_ID]) {
+    if (!pepperData) {
       logger.error('PEPPER not found in CoinGecko response', { json });
       return {
         success: false,
@@ -149,17 +144,15 @@ export async function fetchPepperPrice() {
       };
     }
 
-    const pepperData = json[PEPPER_COIN_ID];
-
     const priceData = {
-      usd: pepperData.usd,
-      usd_market_cap: pepperData.usd_market_cap,
-      usd_24h_vol: pepperData.usd_24h_vol,
-      usd_24h_change: pepperData.usd_24h_change,
-      usd_7d_change: pepperData.usd_7d_change,
-      usd_30d_change: pepperData.usd_30d_change,
+      usd: pepperData.current_price,
+      usd_market_cap: pepperData.market_cap,
+      usd_24h_vol: pepperData.total_volume,
+      usd_24h_change: pepperData.price_change_percentage_24h_in_currency,
+      usd_7d_change: pepperData.price_change_percentage_7d_in_currency,
+      usd_30d_change: pepperData.price_change_percentage_30d_in_currency,
       circulating_supply: pepperData.circulating_supply,
-      last_updated_at: pepperData.last_updated_at,
+      last_updated_at: pepperData.last_updated,
     };
 
     // Update cache
