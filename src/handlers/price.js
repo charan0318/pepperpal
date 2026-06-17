@@ -41,6 +41,19 @@ function formatLargeNumber(value) {
 }
 
 /**
+ * Format large supply numbers with commas.
+ * @param {number} value
+ * @returns {string}
+ */
+function formatSupply(value) {
+  if (!value && value !== 0) return 'N/A';
+
+  return Number(value).toLocaleString('en-US', {
+    maximumFractionDigits: 0,
+  });
+}
+
+/**
  * Format percentage change with sign
  * @param {number} change
  * @returns {string}
@@ -91,9 +104,6 @@ export async function priceHandler(ctx) {
     }
 
     const { data, fromCache } = result;
-
-    // PEPPER contract address
-    const contractAddress = '0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67';
     const timestamp = formatTimestamp(data.last_updated_at);
 
     // Build response message with emojis as suffixes (using HTML for hyperlink)
@@ -101,9 +111,12 @@ export async function priceHandler(ctx) {
       'PEPPER Price 🌶️\n\n' +
       `${formatPrice(data.usd)} 💰\n` +
       `24h Change: ${formatChange(data.usd_24h_change)}\n` +
+      `7d Change: ${formatChange(data.usd_7d_change)}\n` +
+      `30d Change: ${formatChange(data.usd_30d_change)}\n` +
       `Market Cap: ${formatLargeNumber(data.usd_market_cap)} 💎\n` +
       `24h Volume: ${formatLargeNumber(data.usd_24h_vol)} 📊\n\n` +
-      `Contract: <code>${contractAddress}</code>\n\n` +
+      `Circulating Supply: ${formatSupply(data.circulating_supply)} PEPPER\n\n` +
+      `Use /buy to know where to buy PEPPER.\n\n` +
       `<a href="https://www.coingecko.com/en/coins/pepper">CoinGecko</a> • Updated: ${timestamp}`;
 
     await ctx.reply(message, {

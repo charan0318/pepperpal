@@ -27,6 +27,9 @@ let priceCache = {
  * @property {number} usd_market_cap - Market cap in USD
  * @property {number} usd_24h_vol - 24h volume in USD
  * @property {number} usd_24h_change - 24h change percentage
+ * @property {number} usd_7d_change - 7d change percentage
+ * @property {number} usd_30d_change - 30d change percentage
+ * @property {number} circulating_supply - Circulating supply
  * @property {number} last_updated_at - Unix timestamp
  */
 
@@ -79,6 +82,9 @@ export async function fetchPepperPrice() {
     include_market_cap: 'true',
     include_24hr_vol: 'true',
     include_24hr_change: 'true',
+    include_7d_change: 'true',
+    include_30d_change: 'true',
+    include_circulating_supply: 'true',
     include_last_updated_at: 'true',
   });
 
@@ -150,6 +156,9 @@ export async function fetchPepperPrice() {
       usd_market_cap: pepperData.usd_market_cap,
       usd_24h_vol: pepperData.usd_24h_vol,
       usd_24h_change: pepperData.usd_24h_change,
+      usd_7d_change: pepperData.usd_7d_change,
+      usd_30d_change: pepperData.usd_30d_change,
+      circulating_supply: pepperData.circulating_supply,
       last_updated_at: pepperData.last_updated_at,
     };
 
