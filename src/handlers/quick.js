@@ -371,10 +371,15 @@ export async function dexHandler(ctx) {
   try {
     await ctx.reply(
       '🔄 Decentralized Exchange Listings:\n\n' +
+      'Chiliz Chain:\n' +
       '• FanX Protocol: https://app.fanx.xyz (PEPPER/WCHZ)\n' +
       '• Kewl: https://kewl.exchange/ (PEPPER/WCHZ)\n' +
       '• Diviswap: https://diviswap.io/ (PEPPER/WCHZ)\n\n' +
-      'Base and Solana listings are pending verification.',
+      'Base:\n' +
+      '• Aerodrome: https://aerodrome.finance (PEPPER/CHZ)\n\n' +
+      'Solana:\n' +
+      '• Meteora: https://meteora.xyz (PEPPER/SOL)\n' +
+      '• Jupiter: https://jup.ag (PEPPER/SOL)',
       { parse_mode: 'Markdown', disable_web_page_preview: true }
     );
     logger.info('DEX command handled', { userId: ctx.from?.id });

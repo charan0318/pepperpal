@@ -121,7 +121,6 @@ export async function priceHandler(ctx) {
       `30d Change: ${formatChange(data.usd_30d_change)}\n` +
       `Market Cap: ${formatLargeNumber(data.usd_market_cap)} 💎\n` +
       `24h Volume: ${formatLargeNumber(data.usd_24h_vol)} 📊\n\n` +
-      `Circulating Supply: ${formatSupply(data.circulating_supply)} PEPPER\n\n` +
       `Use /buy to know where to buy PEPPER.\n\n` +
       `<a href="https://www.coingecko.com/en/coins/pepper">CoinGecko</a> • Updated: ${timestamp}`;
 
