@@ -32,3 +32,4 @@ ROLLBACK.md
 ANALYTICS_AUDIT_REPORT.md
 EXECUTIVE_SUMMARY.md
 .vercel
+.env*.local

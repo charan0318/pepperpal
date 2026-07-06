@@ -101,8 +101,8 @@ export const VERIFIED_FACTS = {
       gasToken: 'CHZ',
       tradingPairs: ['PEPPER/WCHZ'],
       dexes: [
+        { name: 'Kayen Finance', url: 'https://app.kayen.finance/trade/swap' },
         { name: 'FanX Protocol', url: 'https://app.fanx.xyz' },
-        { name: 'Kewl', url: 'https://kewl.exchange/' },
         { name: 'Diviswap', url: 'https://diviswap.io/' }
       ],
       cexes: [

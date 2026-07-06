@@ -128,7 +128,7 @@ You need the native gas token for the chain you are using: CHZ on Chiliz Chain, 
   - FanX Protocol (app.fanx.xyz) - Primary DEX on Chiliz Chain
     - Trading pair: PEPPER/WCHZ
     - Highest liquidity
-  - Kewl (kewl.exchange) - PEPPER/WCHZ
+  - KAYEN.FINANCE (https://app.kayen.finance/trade/swap) - PEPPER/WCHZ
   - Diviswap (diviswap.io) - PEPPER/WCHZ
 - Base
   - Aerodrome (aerodrome.finance)
@@ -200,7 +200,7 @@ A: PEPPER is supported across Chiliz Chain, Base, and Solana. Chiliz remains the
 
 **Q: Where can I buy PEPPER?**
 A: PEPPER can be purchased on:
-- Chiliz DEX: FanX Protocol (app.fanx.xyz), Kewl, Diviswap - pair with WCHZ
+- Chiliz DEX: FanX Protocol (app.fanx.xyz), KAYEN.FINANCE, Diviswap - pair with WCHZ
 - Base: DEX listings pending verification
 - Solana: DEX listings pending verification
 - CEX: MEXC, CoinEx, Bitrue, Cube, Paribu

@@ -324,7 +324,7 @@ export async function linksHandler(ctx) {
       '🗳️ Governance: https://www.peppercoin.com/pepper-inc\n' +
       '🦎 CoinGecko: https://www.coingecko.com/en/coins/pepper\n' +
       '🔍 Explorers: https://chiliscan.com | https://basescan.org | https://solscan.io\n' +
-      '💱 DEX: FanX, Kewl, Diviswap\n\n' +
+      '💱 DEX: FanX, KAYEN.FINANCE, Diviswap\n\n' +
       'Contract: `0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67`',
       { parse_mode: 'Markdown' }
     );
@@ -373,7 +373,7 @@ export async function dexHandler(ctx) {
       '🔄 Decentralized Exchange Listings:\n\n' +
       'Chiliz Chain:\n' +
       '• FanX Protocol: https://app.fanx.xyz (PEPPER/WCHZ)\n' +
-      '• Kewl: https://kewl.exchange/ (PEPPER/WCHZ)\n' +
+      '• KAYEN.FINANCE: https://app.kayen.finance/trade/swap (PEPPER/WCHZ)\n' +
       '• Diviswap: https://diviswap.io/ (PEPPER/WCHZ)\n\n' +
       'Base:\n' +
       '• Aerodrome: https://aerodrome.finance (PEPPER/CHZ)\n\n' +
