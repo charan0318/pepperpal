@@ -55,8 +55,8 @@ export const LENGTH_BUCKETS = {
 
 // Models - Using non-reasoning instruct models for reliable content output
 export const MODELS = {
-  FAST: 'liquid/lfm-2.5-1.2b-instruct:free',           // LiquidAI - fast edge model, 33K context
-  QUALITY: 'google/gemma-3-4b-it:free',               // Gemma 3 4B - quality model, 33K context
+  FAST: 'nvidia/nemotron-3-ultra-550b-a55b:free',       // NVIDIA Nemotron 3 Ultra 550B - free tier
+  QUALITY: 'nvidia/nemotron-3-ultra-550b-a55b:free',    // NVIDIA Nemotron 3 Ultra 550B - free tier
 };
 
 // Timeouts

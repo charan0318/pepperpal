@@ -37,8 +37,8 @@ const config = {
   openRouter: {
     // API key (required for AI features)
     apiKey: process.env.OPENROUTER_API_KEY,
-    // Model to use (default: GLM 4.5 Air - stable, fast, standard output)
-    model: process.env.OPENROUTER_MODEL || 'liquid/lfm-2.5-1.2b-instruct:free',
+    // Model to use (default: NVIDIA Nemotron 3 Ultra 550B - free tier)
+    model: process.env.OPENROUTER_MODEL || 'nvidia/nemotron-3-ultra-550b-a55b:free',
     // Temperature (low for deterministic responses)
     temperature: parseFloat(process.env.OPENROUTER_TEMPERATURE || '0.1'),
     // Max tokens for response
